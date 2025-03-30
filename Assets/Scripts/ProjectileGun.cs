@@ -45,7 +45,15 @@ public class ProjectileGun : MonoBehaviour
         
         if (ammunitionDisplay != null)
         {
-            ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " / " + magazineSize / bulletsPerTap);
+            if (reloading)
+            {
+                ammunitionDisplay.SetText("Reloading");
+
+            }
+            else
+            { 
+                ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " / " + magazineSize / bulletsPerTap);
+            }
         }
     }
 
@@ -105,7 +113,6 @@ public class ProjectileGun : MonoBehaviour
         // Add forces to bullet
         currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
         Destroy(currentBullet, 10 );
-        //currentBullet.GetComponent<Rigidbody>().AddForce(fpsCam.transform.up * upwardForce, ForceMode.Impulse);
 
         bulletsLeft--;
         bulletsShot++;
