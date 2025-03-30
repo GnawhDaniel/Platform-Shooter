@@ -42,7 +42,7 @@ public class ProjectileGun : MonoBehaviour
     private void Update()
     {
         MyInput();
-        
+
         if (ammunitionDisplay != null)
         {
             if (reloading)
@@ -51,7 +51,7 @@ public class ProjectileGun : MonoBehaviour
 
             }
             else
-            { 
+            {
                 ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " / " + magazineSize / bulletsPerTap);
             }
         }
@@ -83,36 +83,19 @@ public class ProjectileGun : MonoBehaviour
         Vector3 target = new Vector3(attackPoint.position.x, attackPoint.position.y, 0);
 
         Vector3 direction = (target - source).normalized;
-        Ray ray = new Ray(source, direction);
 
-        Vector3 targetPoint;
-        if (Physics.Raycast(ray, out RaycastHit hit, 5))
-        {
-            targetPoint = hit.point;
-        }
-        else
-        {
-            targetPoint = ray.GetPoint(5);
-        }
-
-        Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
-
-        // Calculate Spread
+        //// Calculate Spread
         float x = Random.Range(-spread, spread);
         float y = Random.Range(-spread, spread);
 
         // Calculate new direction with spread
-        Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0);
+        Vector3 directionWithSpread = direction + new Vector3(x, y, 0);
 
         // Instantiate bullet/projectile
         GameObject currentBullet = Instantiate(bullet, sourcePoint.position, Quaternion.identity);
 
-        // Rotate bullet to shoot direction
-        //currentBullet.transform.forward = directionWithSpread.normalized;
-
         // Add forces to bullet
-        currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
-        Destroy(currentBullet, 10 );
+        currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread * shootForce, ForceMode.Impulse);
 
         bulletsLeft--;
         bulletsShot++;
