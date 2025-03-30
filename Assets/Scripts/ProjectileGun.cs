@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using System.Xml;
 
 public class ProjectileGun : MonoBehaviour
 {
@@ -14,11 +13,11 @@ public class ProjectileGun : MonoBehaviour
     public float timeBetweenShooting, spread, reloadTime, timeBetweenShots;
     public int magazineSize, bulletsPerTap;
     public bool allowButtonHold;
-
-    int bulletsLeft, bulletsShot;
+    
+    public int bulletsLeft, bulletsShot;
 
     // Bools
-    bool shooting, readyToShoot, reloading;
+    public bool shooting, readyToShoot, reloading;
 
     // Reference
     public Transform sourcePoint;
@@ -71,11 +70,10 @@ public class ProjectileGun : MonoBehaviour
         {
             bulletsShot = 0;
             Shoot();
-
         }
     }
 
-    private void Shoot()
+    public void Shoot()
     {
         readyToShoot = false;
 
@@ -110,19 +108,19 @@ public class ProjectileGun : MonoBehaviour
         }
     }
 
-    private void ResetShot()
+    public void ResetShot()
     {
         readyToShoot = true;
         allowInvoke = true;
     }
 
-    private void Reload()
+    public void Reload()
     {
         reloading = true;
         Invoke("ReloadFinished", reloadTime);
     }
 
-    private void ReloadFinished()
+    public void ReloadFinished()
     {
         bulletsLeft = magazineSize;
         reloading = false;
