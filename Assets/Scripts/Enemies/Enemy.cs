@@ -2,16 +2,19 @@ using UnityEngine;
 
 public class Enemy : ProjectileGun
 {
-    private Transform hand;
+    private Transform hand; 
+    private double health = 100;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Transform player = GameObject.Find("Player").transform;
+
         hand = transform.Find("Hand");
         readyToShoot = true;
         bulletsLeft = magazineSize;
         reloading = false;
+        
     }
 
     // Update is called once per frame
@@ -22,7 +25,6 @@ public class Enemy : ProjectileGun
         Vector3 direction = (attackPoint.position - transform.position).normalized;
         if (Physics.Raycast(transform.position, direction, out hit, Mathf.Infinity))
         {
-            Debug.Log(hit.transform.name);
             if (hit.transform.name == "Player")
             {
                 shooting = true;
@@ -51,6 +53,24 @@ public class Enemy : ProjectileGun
     private void LookAt()
     {
         Vector3 target = attackPoint.position;
-        hand.LookAt(target);
+        if (target != null)
+        {
+            hand.LookAt(target);
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void SetTargetPlayer()
+    {
+        Transform player = GameObject.Find("Player").transform;
+        attackPoint = player;
     }
 }

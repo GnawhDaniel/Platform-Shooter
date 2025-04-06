@@ -1,23 +1,26 @@
+using System;
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private LayerMask playerMask;
+    [SerializeField] private LayerMask mouseAimMask;
 
     // Public Variables
-    public float sprintSpeed = 7;
-    public float walkSpeed = 4;
-    public Transform targetTransform;
-    public LayerMask mouseAimMask;
+    [SerializeField] private float sprintSpeed = 7;
+    [SerializeField] private float walkSpeed = 4;
+    [SerializeField] private Transform targetTransform;
+    [SerializeField] private TextMeshProUGUI healthDisplay;
 
     // Internal Var
+    private double health = 100;
     private bool jumpKeyWasPressed = false;
-    private int jumpCounter = 2;
     private bool sprintKeyHold = false;
     private float horizontalInput;
+    private int jumpCounter = 2;
 
-  
     private Camera mainCamera;
     private Rigidbody rigidbodyComponent;
     private Transform hand;
@@ -33,7 +36,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         // Aim
         mainCamera = Camera.main;
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -56,7 +58,7 @@ public class Player : MonoBehaviour
         }
 
         horizontalInput = Input.GetAxis("Horizontal");
-
+        healthDisplay.SetText(health.ToString("0.00") + " HP");
     }
 
     // Fixed update is called once every physic update
@@ -98,5 +100,22 @@ public class Player : MonoBehaviour
             jumpKeyWasPressed = false;
         }
 
+    }
+
+    // Take Damage
+    public void TakeDamge (float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            OnDeath();
+        }
+    }
+
+    private void OnDeath()
+    {
+        // Destroy the player object
+        healthDisplay.SetText(health.ToString("0.00") + " HP");
+        Destroy(gameObject);
     }
 }

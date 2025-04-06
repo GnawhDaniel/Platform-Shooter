@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class ProjectileGun : MonoBehaviour
 {
@@ -83,8 +84,8 @@ public class ProjectileGun : MonoBehaviour
         Vector3 direction = (target - source).normalized;
 
         //// Calculate Spread
-        float x = Random.Range(-spread, spread);
-        float y = Random.Range(-spread, spread);
+        float x = UnityEngine.Random.Range(-spread, spread);
+        float y = UnityEngine.Random.Range(-spread, spread);
 
         // Calculate new direction with spread
         Vector3 directionWithSpread = direction + new Vector3(x, y, 0);
