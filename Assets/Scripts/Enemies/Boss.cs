@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class Boss : MonoBehaviour
 {
@@ -12,6 +12,8 @@ public class Boss : MonoBehaviour
 
     // Stats
     [SerializeField] private float timeBetweenShooting, spread;
+
+    [SerializeField] private Slider healthUI;
     private float health = 1000f;
 
     // Reference
@@ -42,13 +44,22 @@ public class Boss : MonoBehaviour
                 BulletWheelAttack(weapon);
             }
         }
+        UpdateHealthBar();
+    }
 
+    private void UpdateHealthBar()
+    {
+        // Update the health bar UI
+        if (healthUI != null)
+        {
+            healthUI.value = health / 1000f;
+        }
     }
 
     private void FixedUpdate()
     {
         // Randomly spawn underlings
-        if (UnityEngine.Random.Range(0, 1000) < 3)
+        if (UnityEngine.Random.Range(0, 1000) < 2)
         {
             SpawnUnderling();
         }
@@ -95,6 +106,7 @@ public class Boss : MonoBehaviour
                 Debug.Log("Boss Health: " + health);
                 if (health <= 0)
                 {
+                    UpdateHealthBar();
                     Destroy(gameObject);
                 }
             }
