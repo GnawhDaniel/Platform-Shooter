@@ -112,6 +112,16 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void AdjustHP(float hp)
+    {
+        health += hp;
+        if (health > 100)
+        {
+            health = 100;
+        }
+
+    }
+
     private void OnDeath()
     {
         // Destroy the player object

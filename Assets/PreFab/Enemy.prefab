@@ -252,7 +252,7 @@ MonoBehaviour:
   muzzleFlash: {fileID: 0}
   ammunitionDisplay: {fileID: 0}
   allowInvoke: 1
-  health: 100
+  healthPackPrefab: {fileID: 6619973305704605958, guid: 5e346d35ee5fb254ea9ff0cdc69d0063, type: 3}
 --- !u!1001 &7668634690379471922
 PrefabInstance:
   m_ObjectHideFlags: 0

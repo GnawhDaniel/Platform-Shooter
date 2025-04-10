@@ -26,7 +26,7 @@ public class Bullet : MonoBehaviour
         // If the bullet hits an object with a rigidbody, destroy the bullet
         if (collision.gameObject.GetComponent<Rigidbody>())
         {
-            Destroy(gameObject);
+            
             // If gameobject is Player
             if (collision.gameObject.name == "Player")
             {
@@ -35,16 +35,6 @@ public class Bullet : MonoBehaviour
                 if (player != null)
                 {
                     player.TakeDamge(damage);
-                }
-            }
-            // If gameobject is Enemy
-            else if (collision.gameObject.tag == "Enemy")
-            {
-                // Add damage to enemy
-                Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    enemy.TakeDamage(damage);
                 }
             }
         }
