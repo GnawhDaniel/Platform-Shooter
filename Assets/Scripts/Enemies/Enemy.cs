@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Enemy : ProjectileGun
 {
-    private Transform hand; 
+    [SerializeField] private HealthPack healthPackPrefab;
+    private Transform hand;
     private double health = 100;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -14,7 +15,7 @@ public class Enemy : ProjectileGun
         readyToShoot = true;
         bulletsLeft = magazineSize;
         reloading = false;
-        
+
     }
 
     // Update is called once per frame
@@ -48,7 +49,7 @@ public class Enemy : ProjectileGun
             bulletsShot = 0;
             Shoot();
         }
-    } 
+    }
 
     private void LookAt()
     {
@@ -61,9 +62,13 @@ public class Enemy : ProjectileGun
 
     public void TakeDamage(float damage)
     {
+
         health -= damage;
         if (health <= 0)
         {
+            // Spawn Health pack
+            HealthPack currentHealthPack = Instantiate(healthPackPrefab, transform.position, Quaternion.identity);
+
             Destroy(gameObject);
         }
     }
@@ -72,5 +77,22 @@ public class Enemy : ProjectileGun
     {
         Transform player = GameObject.Find("Player").transform;
         attackPoint = player;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("hit enemy" + collision.gameObject.CompareTag("Projectile"));
+        if (collision.gameObject.CompareTag("Projectile"))
+        {
+            // Add damage to player
+            Bullet bullet = collision.gameObject.GetComponent<Bullet>();
+            Debug.Log(bullet.damage);
+            if (bullet != null)
+            {
+                // Add damage to enemy
+                TakeDamage(bullet.damage);
+            }
+            Destroy(collision.gameObject);
+        }
     }
 }
